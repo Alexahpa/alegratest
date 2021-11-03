@@ -1,5 +1,8 @@
 # alegratest
 Alegra Technical Test
 
-Execute 
+To execute the project
+
+```
 docker-compose up
+```
