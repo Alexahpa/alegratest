@@ -30,7 +30,7 @@ COPY . /var/www/kitchen
 # Copy existing application directory permissions
 COPY --chown=www:www . /var/www/kitchen
 
-RUN mkdir /var/www/kitchen/vendor
+RUN mkdir /var/www/kitchen/vendor/
 
 # Change current user to www
 USER www
