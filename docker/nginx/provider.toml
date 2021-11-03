@@ -1,0 +1,16 @@
+[http]
+  [http.routers]
+    [http.routers.kitchen]
+      rule = "(Host(`www.web.localhost`) && PathPrefix(`/kitchen`))"
+      service = "kitchen@docker"
+      entrypoints = ["http", "https"]
+      [http.routers.kitchen.tls]
+    [http.routers.storage]
+      rule = "(Host(`www.restaurant.localhost`) && PathPrefix(`/storage`))"
+      service = "storage@docker"
+      entrypoints = ["http", "https"]
+      [http.routers.storage.tls]
+[tls]
+  [[tls.certificates]]
+    certFile = "/etc/certs/server.crt"
+    keyFile = "/etc/certs/server.key"

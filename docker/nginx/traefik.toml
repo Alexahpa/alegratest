@@ -1,0 +1,33 @@
+[global]
+  sendAnonymousUsage = false
+
+[log]
+  level = "INFO"
+  format = "common"
+
+[accessLog]
+  filePath =  "/var/log/traefik/access.log"
+  bufferingSize =  100
+
+[providers]
+  [providers.file]
+    filename = "/etc/traefik/provider.toml"
+    watch = true
+  [providers.docker]
+    endpoint = "unix:///var/run/docker.sock"
+    watch = true
+
+[api]
+  insecure = true
+  dashboard = true
+
+[entryPoints]
+  [entryPoints.http]
+    address = ":80"
+    [entryPoints.http.http]
+      [entryPoints.http.http.redirections]
+        [entryPoints.http.http.redirections.entryPoint]
+          to = "https"
+          scheme = "https"
+  [entryPoints.https]
+    address = ":443"

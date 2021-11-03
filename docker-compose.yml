@@ -1,0 +1,86 @@
+version: '3.7'
+services:
+  webserver:
+    image: nginx:alpine
+    container_name: nginx
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./apps/kitchen/:/var/www/kitchen
+      - ./apps/storage/:/var/www/storage
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./docker/nginx/sites/:/etc/nginx/conf.d/
+      - ./docker/nginx/ssl/:/etc/ssl/
+    networks:
+      network:
+          aliases: 
+            - storage.alegra.test
+            - kitchen.alegra.test
+
+
+        
+
+  kitchen:
+    build:
+      context: apps/kitchen
+      dockerfile: Dockerfile
+    image: digitalocean.com/php
+    restart: unless-stopped
+    container_name: kitchen
+    command: "sh start.sh"
+    tty: true
+    environment:
+      SERVICE_NAME: kitchen
+      SERVICE_TAGS: dev
+    working_dir: /var/www/kitchen
+    volumes:
+      - ./apps/kitchen/:/var/www/kitchen
+      - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    networks:
+      - network
+
+  storage:
+    build:
+      context: apps/storage
+      dockerfile: Dockerfile
+    image: digitalocean.com/php
+    container_name: storage
+    command: "sh start.sh"
+    restart: unless-stopped
+    tty: true
+    environment:
+      SERVICE_NAME: storage
+      SERVICE_TAGS: dev
+    working_dir: /var/www/storage
+    volumes:
+      - ./apps/storage/:/var/www/storage
+      - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    networks:
+      - network
+
+  db:
+    image: mysql:5.7
+    container_name: mysql
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: rest_db
+      MYSQL_ROOT_PASSWORD: root
+      SERVICE_NAME: mysql
+      SERVICE_TAGS: dev
+    volumes:
+      - ./data/mysql:/var/lib/mysql/
+      - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
+    networks:
+      - network
+
+networks:
+  network:
+    driver: bridge
+volumes:
+  dbdata:
+    driver: local
