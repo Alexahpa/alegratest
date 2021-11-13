@@ -5,6 +5,9 @@ RUN apt-get update && apt-get install -y \
         libjpeg62-turbo-dev \
         libpng-dev \
         git \
+        libzip-dev \
+        zip \
+    && docker-php-ext-install zip \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) gd \
     && docker-php-ext-install pdo pdo_mysql mysqli
@@ -24,6 +27,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN groupadd -g 1000 www
 RUN useradd -u 1000 -ms /bin/bash -g www www
 
+
 # Copy existing application directory contents
 COPY . /var/www/storage
 
@@ -32,6 +36,7 @@ COPY --chown=www:www . /var/www/storage
 
 
 RUN mkdir /var/www/storage/vendor/
+RUN chown www:www /var/www/storage/vendor
 
 # Change current user to www
 USER www

@@ -5,6 +5,9 @@ RUN apt-get update && apt-get install -y \
         libjpeg62-turbo-dev \
         libpng-dev \
         git \
+        libzip-dev \
+        zip \
+    && docker-php-ext-install zip \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) gd \
     && docker-php-ext-install pdo pdo_mysql mysqli
@@ -31,6 +34,9 @@ COPY . /var/www/kitchen
 COPY --chown=www:www . /var/www/kitchen
 
 RUN mkdir /var/www/kitchen/vendor/
+RUN chown www:www /var/www/kitchen/vendor
+
+#RUN chmod 755 /usr/local/bin/composer
 
 # Change current user to www
 USER www
