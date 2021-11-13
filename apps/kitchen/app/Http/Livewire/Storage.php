@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\IngredientStock;
+use App\Services\API\StorageAPIService;
 use Livewire\Component;
 
 class Storage extends Component
@@ -11,7 +11,10 @@ class Storage extends Component
 
     public function update()
     {
-        $this->storage = IngredientStock::with('ingredient')->get();
+
+        $storageService = new StorageAPIService();
+
+        $this->storage = $storageService->getStocks();
 
     }
 

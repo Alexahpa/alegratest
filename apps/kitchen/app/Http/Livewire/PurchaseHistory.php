@@ -2,7 +2,8 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\PurchaseHistory as ModelsPurchaseHistory;
+use App\Services\API\StorageAPIService;
+use GuzzleHttp\Client;
 use Livewire\Component;
 
 class PurchaseHistory extends Component
@@ -12,7 +13,8 @@ class PurchaseHistory extends Component
 
     public function update()
     {
-        $this->purchases = ModelsPurchaseHistory::all();
+        $storageService = new StorageAPIService();
+        $this->purchases = $storageService->getPurchases();
 
     }
 
