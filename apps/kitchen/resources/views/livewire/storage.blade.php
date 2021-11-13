@@ -1,8 +1,22 @@
 <div wire:poll.1s="update">
-    <h1>Stock del almacen</h1>
-    <ul>
-        @foreach ($storage as $item)
-            <li>Ingrediente: {{ $item->ingredient->name }} : {{ $item->stock }}</li>
-        @endforeach
-    </ul>
+    <h4>Stock del almacen</h4>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Ingrediente</th>
+                <th>Stock Disponible</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($storage as $item)
+                <tr>
+                    <td> {{ $item->ingredient->name }}</td>
+                    <td>{{ $item->stock }}</td>
+                </tr>
+
+            @endforeach
+        </tbody>
+    </table>
+
+
 </div>
