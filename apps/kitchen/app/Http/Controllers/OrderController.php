@@ -11,17 +11,23 @@ use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
+    public function index()
+    {
+        return view('orders');
+    }
+
+
     public function prepare(Request $request)
     {
-        // try {
+        try {
             $recipe = Recipe::inRandomOrder()->first();
             $kitchen = new KitchenService();
             $id = $kitchen->preparePlate($recipe);
             $success = true;
             return response()->json(compact('success', 'id'));
-        // } catch (Exception $e) {
-        //     return response()->json(['success' => false, 'message' => $e->getMessage()], 400);
-        // }
+        } catch (Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 400);
+        }
     }
 
 

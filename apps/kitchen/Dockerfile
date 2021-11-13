@@ -7,6 +7,7 @@ RUN apt-get update && apt-get install -y \
         git \
         libzip-dev \
         zip \
+        npm \
     && docker-php-ext-install zip \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) gd \
@@ -35,7 +36,6 @@ COPY --chown=www:www . /var/www/kitchen
 
 RUN mkdir /var/www/kitchen/vendor/
 RUN chown www:www /var/www/kitchen/vendor
-
 #RUN chmod 755 /usr/local/bin/composer
 
 # Change current user to www

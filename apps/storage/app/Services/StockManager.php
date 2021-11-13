@@ -3,7 +3,9 @@
 namespace App\Services;
 
 use App\Interfaces\ProviderInterface;
+use App\Models\Ingredient;
 use App\Models\IngredientStock;
+use App\Models\PurchaseHistory;
 use App\Services\FoodProviders\PublicMarket\Market;
 
 class StockManager
@@ -37,8 +39,6 @@ class StockManager
 
             $this->buyIngredient($ingredientStock, $count);
         });
-
-
     }
 
 
@@ -51,6 +51,7 @@ class StockManager
             $buyed = $this->provider->buyIngredient($ingredientName);
             if ($buyed > 0) {
                 $stock = $buyed + $stock;
+                $this->logPurchase($ingredientStock->ingredient, $buyed);
             }
         }
 
@@ -64,5 +65,13 @@ class StockManager
     }
 
 
+    private function logPurchase(Ingredient $ingredient, int $amount)
+    {
+        $purchasehistory = new PurchaseHistory();
+        $purchasehistory->ingredient_id = $ingredient->id;
+        $purchasehistory->amount = $amount;
+        $purchasehistory->market = env('FOOD_PROVIDER', 'market');
+        $purchasehistory->save();
 
+    }
 }

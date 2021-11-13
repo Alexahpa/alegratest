@@ -34,7 +34,6 @@ COPY . /var/www/storage
 # Copy existing application directory permissions
 COPY --chown=www:www . /var/www/storage
 
-
 RUN mkdir /var/www/storage/vendor/
 RUN chown www:www /var/www/storage/vendor
 
