@@ -2,6 +2,10 @@ echo "start profiling"
 TPS=$(date +%s)
 echo "${TPS}"
 
+composer install --no-autoloader --no-scripts --no-dev
+
+composer dump-autoload --optimize
+
 cp .env.example .env
 php artisan key:generate
 

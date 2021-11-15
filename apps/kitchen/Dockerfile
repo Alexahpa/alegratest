@@ -36,7 +36,6 @@ COPY --chown=www:www . /var/www/kitchen
 
 RUN mkdir /var/www/kitchen/vendor/
 RUN chown www:www /var/www/kitchen/vendor
-#RUN chmod 755 /usr/local/bin/composer
 
 # Change current user to www
 USER www

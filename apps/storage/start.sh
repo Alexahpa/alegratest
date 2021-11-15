@@ -1,8 +1,12 @@
 echo "start profiling"
 TPS=$(date +%s)
 echo "${TPS}"
-cp .env.example .env
 
+composer install --no-autoloader --no-scripts --no-dev
+
+composer dump-autoload --optimize
+
+cp .env.example .env
 php artisan key:generate
 
 touch /var/www/kitchen/storage/logs/laravel.log

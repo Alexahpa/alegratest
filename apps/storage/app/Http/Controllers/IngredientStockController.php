@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\IngredientsRequested;
 use App\Models\IngredientStock;
+use Exception;
 use Illuminate\Http\Request;
 
 class IngredientStockController extends Controller

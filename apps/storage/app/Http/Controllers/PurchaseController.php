@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\PurchaseHistory;
+use Exception;
 
 class PurchaseController extends Controller
 {
